@@ -1,0 +1,7 @@
+{
+  "name": "Travel Expenses",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
