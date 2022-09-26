@@ -16,6 +16,7 @@ import { setUserState } from '../redux/actions';
 
 const Tab3: React.FC = () => {
 
+  const [Acumulado, setAcumulado] = useState(0);
   const [Amount, setAmount] = useState<number>();
   const [Currency, setCurrency] = useState<string>();
   const [Date, setDate] = useState<string>();
@@ -30,6 +31,7 @@ const Tab3: React.FC = () => {
     var respuesta = await fetch(url)
     var response = await respuesta.json();
     console.log("Respuesta de Api " + response.result);
+    setAcumulado(Acumulado+response.result);
     const formatedObject = { "Amount": Amount, "Currency": Currency, "Date": Date, "CopAmount": response.result };
     console.log(formatedObject);
     setExpense(expense => [...expense, formatedObject])
@@ -84,7 +86,7 @@ const Tab3: React.FC = () => {
             <IonCol></IonCol>
             <IonCol></IonCol>
             <IonCol></IonCol>
-            <IonCol>Total = {total}</IonCol>
+            <IonCol>Total = {Acumulado}</IonCol>
           </IonRow>
         </IonGrid>
       </IonContent>
