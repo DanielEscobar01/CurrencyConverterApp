@@ -1,10 +1,14 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonDatetime, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar, useIonViewDidEnter } from '@ionic/react';
-import { people } from 'ionicons/icons';
+import { IonButton, IonButtons, IonCol, IonContent, IonDatetime, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonList, IonLoading, IonModal, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToolbar, useIonViewDidEnter } from '@ionic/react';
+import { key, people } from 'ionicons/icons';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ExpenseItem from '../components/ExpenseItem';
 import ExploreContainer from '../components/ExploreContainer';
 import { Expense } from '../models/expense.model';
 import './Tab3.css';
+import { logoutUser } from '../firebaseConfig'
+import { useHistory } from 'react-router';
+import { setUserState } from '../redux/actions';
 
 
 // Api key = 4BAiPKtp5oYuhLB2NH9gmZ74ARBBngTs
@@ -18,14 +22,14 @@ const Tab3: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [expense, setExpense] = useState<Expense[]>([]);
   const [currencies, setCurrencies] = useState<string[]>([]);
-
+  const [total, setTotal] = useState<number>(1);
 
 
   async function getCopValue() {
     const url = "https://api.apilayer.com/exchangerates_data/convert?to=COP&from=" + Currency + "&amount=" + Amount + "&apikey=4BAiPKtp5oYuhLB2NH9gmZ74ARBBngTs"
     var respuesta = await fetch(url)
     var response = await respuesta.json();
-    console.log("Respuesta de Api "+response.result);
+    console.log("Respuesta de Api " + response.result);
     const formatedObject = { "Amount": Amount, "Currency": Currency, "Date": Date, "CopAmount": response.result };
     console.log(formatedObject);
     setExpense(expense => [...expense, formatedObject])
@@ -39,7 +43,23 @@ const Tab3: React.FC = () => {
     setCurrencies(currencies => [...currencyFormated]);
   })
 
+  async function getTotal() {
+    const totalValue = {
 
+    }
+    setTotal(prev => prev + total);
+  }
+
+  const username = useSelector((state: any) => state.user.username)
+  const [busy, setBusy] = useState(false)
+  const history = useHistory()
+  
+  async function logout() {
+    setBusy(true)
+    await logoutUser()
+    setBusy(false)
+    history.replace('/')
+  }
 
   return (
     <IonPage>
@@ -49,6 +69,9 @@ const Tab3: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent >
+        <IonLoading message="Logging out..." duration={0} isOpen={busy}></IonLoading>
+        <p>Hello {username}</p>
+        <IonButton onClick={logout}>Logout</IonButton>
         <IonGrid>
           <IonRow>
             <IonCol>Amount</IonCol>
@@ -57,6 +80,12 @@ const Tab3: React.FC = () => {
             <IonCol>Amount in COP</IonCol>
           </IonRow>
           {expense.map((expense, idx) => <ExpenseItem key={idx} expense={expense} />)}
+          <IonRow>
+            <IonCol></IonCol>
+            <IonCol></IonCol>
+            <IonCol></IonCol>
+            <IonCol>Total = {total}</IonCol>
+          </IonRow>
         </IonGrid>
       </IonContent>
 
@@ -64,6 +93,9 @@ const Tab3: React.FC = () => {
 
       <IonButton onClick={() => setShowModal(true)} id="open-modal" expand="block">
         Add New Expense
+      </IonButton>
+      <IonButton onClick={() => getTotal()}>
+        Get Total Amount
       </IonButton>
       <IonModal isOpen={showModal} >
         <IonHeader>
