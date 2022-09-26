@@ -23,15 +23,13 @@ const Tab3: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [expense, setExpense] = useState<Expense[]>([]);
   const [currencies, setCurrencies] = useState<string[]>([]);
-  const [total, setTotal] = useState<number>(1);
-
 
   async function getCopValue() {
     const url = "https://api.apilayer.com/exchangerates_data/convert?to=COP&from=" + Currency + "&amount=" + Amount + "&apikey=4BAiPKtp5oYuhLB2NH9gmZ74ARBBngTs"
     var respuesta = await fetch(url)
     var response = await respuesta.json();
     console.log("Respuesta de Api " + response.result);
-    setAcumulado(Acumulado+response.result);
+    setAcumulado(Acumulado + response.result);
     const formatedObject = { "Amount": Amount, "Currency": Currency, "Date": Date, "CopAmount": response.result };
     console.log(formatedObject);
     setExpense(expense => [...expense, formatedObject])
@@ -45,17 +43,10 @@ const Tab3: React.FC = () => {
     setCurrencies(currencies => [...currencyFormated]);
   })
 
-  async function getTotal() {
-    const totalValue = {
-
-    }
-    setTotal(prev => prev + total);
-  }
-
   const username = useSelector((state: any) => state.user.username)
   const [busy, setBusy] = useState(false)
   const history = useHistory()
-  
+
   async function logout() {
     setBusy(true)
     await logoutUser()
@@ -72,32 +63,28 @@ const Tab3: React.FC = () => {
       </IonHeader>
       <IonContent >
         <IonLoading message="Logging out..." duration={0} isOpen={busy}></IonLoading>
-        <p>Hello {username}</p>
-        <IonButton onClick={logout}>Logout</IonButton>
-        <IonGrid>
-          <IonRow>
+        <IonItem className="greetings">
+          <IonLabel >
+            Hello {username}!
+          </IonLabel>
+        </IonItem>
+        <IonGrid >
+          <IonRow className="titles">
             <IonCol>Amount</IonCol>
             <IonCol>Currency</IonCol>
             <IonCol>Date</IonCol>
             <IonCol>Amount in COP</IonCol>
           </IonRow>
-          {expense.map((expense, idx) => <ExpenseItem key={idx} expense={expense} />)}
-          <IonRow>
-            <IonCol></IonCol>
-            <IonCol></IonCol>
-            <IonCol></IonCol>
-            <IonCol>Total = {Acumulado}</IonCol>
-          </IonRow>
         </IonGrid>
+        {expense.map((expense, idx) => <ExpenseItem key={idx} expense={expense} />)}
+        <IonItem className="total">
+          <p >Dear user,
+          Up to this moment your <b>total</b> expenses are: $ <b> {Acumulado} </b> in COP</p>
+        </IonItem>
+        <IonButton onClick={logout}>Logout</IonButton>
       </IonContent>
-
-
-
       <IonButton onClick={() => setShowModal(true)} id="open-modal" expand="block">
         Add New Expense
-      </IonButton>
-      <IonButton onClick={() => getTotal()}>
-        Get Total Amount
       </IonButton>
       <IonModal isOpen={showModal} >
         <IonHeader>
@@ -133,7 +120,5 @@ const Tab3: React.FC = () => {
     </IonPage>
   );
 };
-
-
 
 export default Tab3;

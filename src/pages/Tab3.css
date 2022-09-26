@@ -1,0 +1,17 @@
+.greetings {
+    display: inline;
+    font-size: 32px;
+}
+
+.titles {
+    font-size: 17px;
+}
+
+.rows {
+    font-size: 13px;
+}
+
+.total {
+    display: block;
+    font-size: 15px;
+}
