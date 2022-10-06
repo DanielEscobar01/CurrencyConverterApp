@@ -1,0 +1,34 @@
+ion-title {
+    color:blue;
+    font-size: 30px;
+    text-align: center;
+    text-decoration-style: solid;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: oblique;
+}
+
+ion-input {
+    text-align: center;
+    background:blue;
+}
+
+p {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: oblique;
+}
+
+ion-content{
+    --ion-background-color: lightblue;
+}
+
+button-inner{
+    text-align: center;
+}
+
+#boton{
+    text-align: center;
+}
+
+
+

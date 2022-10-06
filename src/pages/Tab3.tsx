@@ -78,10 +78,10 @@ const Tab3: React.FC = () => {
         </IonGrid>
         {expense.map((expense, idx) => <ExpenseItem key={idx} expense={expense} />)}
         <IonItem className="total">
-          <p >Dear user,
+          <p>Dear user,
           Up to this moment your <b>total</b> expenses are: $ <b> {Acumulado} </b> in COP</p>
         </IonItem>
-        <IonButton onClick={logout}>Logout</IonButton>
+        <div className='ion-text-center'><IonButton onClick={logout}>Logout</IonButton></div>
       </IonContent>
       <IonButton onClick={() => setShowModal(true)} id="open-modal" expand="block">
         Add New Expense

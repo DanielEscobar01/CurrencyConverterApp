@@ -44,7 +44,9 @@ const Tab1: React.FC = () => {
           placeholder="Password"
           onIonChange={(e: any) => setPassword(e.target.value)}>
         </IonInput>
+        <div id='boton'>
         <IonButton onClick={login}>Login</IonButton>
+        </div>
         <p>Are you new here? <Link to="/register">Register</Link></p>
         <ExploreContainer name="Tab 1 page" />
       </IonContent>

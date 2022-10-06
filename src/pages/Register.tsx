@@ -5,6 +5,7 @@ import ExploreContainer from '../components/ExploreContainer';
 import { toast } from '../toast';
 import './Tab1.css';
 import { registerUser } from '../firebaseConfig';
+import { text } from 'ionicons/icons';
 
 const Register: React.FC = () => {
     const [busy, setBusy] = useState<boolean>(false)
@@ -51,7 +52,7 @@ const Register: React.FC = () => {
                     placeholder="Confirm Password"
                     onIonChange={(e: any) => setCPassword(e.target.value)}>
                 </IonInput>
-                <IonButton onClick={register}>Register</IonButton>
+                <div className='ion-text-center'><IonButton onClick={register}>Register</IonButton></div>
                 <p>Already have an acount? <Link to="/tab1">Login</Link></p>
                 <ExploreContainer name="Tab 1 page" />
             </IonContent>
